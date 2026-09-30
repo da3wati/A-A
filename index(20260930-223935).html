@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>أحلام & أكرم</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:#160a0b;color:#fff;overflow-x:hidden}
+.opening-screen{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:linear-gradient(rgba(30,10,12,.25),rgba(30,10,12,.45)),url("cover.jpg") center/cover no-repeat;transition:opacity 1s,visibility 1s}
+.opening-screen.hide{opacity:0;visibility:hidden;pointer-events:none}
+.opening-content{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:25px}
+.opening-title{font-size:21px;letter-spacing:2px;margin-bottom:25px}
+.envelope-wrapper{width:min(86vw,470px);cursor:pointer;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 20px 35px rgba(0,0,0,.35))}
+.envelope-wrapper img{width:100%;display:block;border-radius:5px}
+.open-text{margin-top:25px;font-size:18px;animation:pulse 2s infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pulse{0%,100%{opacity:.65}50%{opacity:1}}
+.invitation{display:none;position:relative;min-height:100vh}
+.invitation.active{display:block}
+.fixed-background{position:fixed;inset:0;z-index:-3;background:linear-gradient(rgba(30,10,12,.30),rgba(30,10,12,.48)),url("background.jpg") center/cover no-repeat;transform:translateZ(0)}
+.background-overlay{position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(34,10,13,.18),rgba(34,10,13,.38))}
+.content{width:100%;max-width:700px;margin:auto;padding-bottom:60px}
+.section{min-height:100vh;padding:80px 22px;display:flex;align-items:center;justify-content:center;text-align:center}
+.glass{width:100%;padding:35px 25px;border-radius:25px;background:rgba(45,15,17,.34);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);box-shadow:0 20px 60px rgba(0,0,0,.22)}
+.bismillah{font-size:28px;margin-bottom:25px;color:#f8e7c8}
+.ayah{font-size:26px;line-height:2.1;color:#fff8ef;margin-bottom:20px}
+.ayah-source{font-size:15px;color:#ead1a6}
+.divider{width:90px;height:1px;background:#d9b779;margin:25px auto}
+.names{font-family:Georgia,serif;direction:ltr;font-size:clamp(45px,12vw,75px);line-height:1;color:#fff7ec;margin:15px 0;text-shadow:0 4px 20px rgba(0,0,0,.45)}
+.ampersand{display:block;font-size:28px;color:#e1bf82;margin:8px 0}
+.invitation-text{font-size:20px;line-height:1.9;color:#fff4e8}
+.section-title{font-size:32px;color:#f5dcae;margin-bottom:25px}
+.date-box{padding:22px 15px;border-top:1px solid rgba(232,199,140,.7);border-bottom:1px solid rgba(232,199,140,.7);margin:25px 0}
+.date{font-size:30px;color:#fff8ed}
+.venue{font-size:25px;color:#f3d8b5;margin-top:25px}
+.venue-icon{font-size:34px;color:#e2bd7c;margin-bottom:10px}
+.location-button{display:inline-block;margin-top:25px;padding:12px 28px;border:1px solid #d8b36e;border-radius:30px;color:#fff7eb;text-decoration:none;background:rgba(90,30,30,.35)}
+.couple-image{width:100%;display:block;border-radius:22px;border:1px solid rgba(255,255,255,.35);box-shadow:0 25px 60px rgba(0,0,0,.45)}
+.couple-caption{font-size:20px;margin-top:20px;color:#fff2df}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:30px}
+.count-box{padding:15px 5px;border-radius:15px;background:rgba(55,17,20,.48);border:1px solid rgba(229,195,133,.45);backdrop-filter:blur(5px)}
+.count-number{display:block;font-family:Georgia,serif;font-size:38px;line-height:1;color:#fff5e7}
+.count-label{display:block;margin-top:8px;font-size:14px;color:#e9cca1}
+.welcome-section{min-height:80vh}
+.welcome-title{font-size:38px;color:#f4d6a5;margin-bottom:20px}
+.welcome-text{font-size:21px;line-height:2;color:#fff5eb}
+.closing-names{font-family:Georgia,serif;direction:ltr;font-size:46px;color:#fff5e8;margin-top:30px}
+.music-button{position:fixed;top:20px;left:20px;z-index:500;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.45);background:rgba(50,15,18,.65);color:#fff;display:none;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(10px);font-size:20px}
+.music-button.show{display:flex}
+@media(max-width:500px){.opening-title{font-size:18px}.envelope-wrapper{width:92vw}.section{padding:70px 15px}.glass{padding:30px 18px}.ayah{font-size:23px}.names{font-size:48px}.invitation-text{font-size:18px}.date{font-size:27px}.venue{font-size:22px}.countdown{gap:6px}.count-box{padding:13px 3px}.count-number{font-size:31px}.count-label{font-size:12px}.welcome-title{font-size:32px}}
+</style>
+</head>
+<body>
+
+<div class="opening-screen" id="openingScreen">
+  <div class="opening-content">
+    <div class="opening-title">دعوة زفاف</div>
+    <div class="envelope-wrapper" id="openInvitation">
+      <img src="cover.jpg" alt="دعوة أحلام وأكرم">
+    </div>
+    <div class="open-text">اضغط على الظرف لفتح الدعوة</div>
+  </div>
+</div>
+
+<main class="invitation" id="invitation">
+<div class="fixed-background"></div>
+<div class="background-overlay"></div>
+
+<button class="music-button" id="musicButton" aria-label="الموسيقى">♪</button>
+
+<div class="content">
+
+<section class="section">
+<div class="glass">
+<div class="bismillah">بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ</div>
+<div class="ayah">﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾</div>
+<div class="ayah-source">سورة الروم — الآية 21</div>
+<div class="divider"></div>
+<p class="invitation-text">بكل الحب والفرح، يسعدنا أن نشارككم أجمل لحظاتنا وأنتم تشاركوننا فرحتنا في يوم زفافنا.</p>
+<div class="names">Ahlam<span class="ampersand">&</span>Akram</div>
+<p class="invitation-text">نتشرف بحضوركم ومشاركتنا هذه المناسبة الغالية على قلوبنا.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="glass">
+<div class="section-title">موعدنا مع الفرح</div>
+<div class="divider"></div>
+<div class="date-box">
+<div class="date">الخميس</div>
+<div class="date">20 نوفمبر 2026</div>
+</div>
+<div class="venue-icon">♡</div>
+<div class="venue">قاعة الأفراح دزيرية</div>
+<a class="location-button" href="https://maps.app.goo.gl/Ew2AR6v6DmQL2He99" target="_blank" rel="noopener">الوصول إلى القاعة</a>
+</div>
+</section>
+
+<section class="section">
+<div class="glass">
+<img src="couple.jpg" alt="أحلام وأكرم" class="couple-image">
+<div class="couple-caption">وبهذه الصورة تبدأ أجمل حكاياتنا...</div>
+</div>
+</section>
+
+<section class="section">
+<div class="glass">
+<div class="section-title">لم يبقَ سوى القليل</div>
+<p class="invitation-text">ننتظر يومنا الكبير بكل شوق وفرح</p>
+<div class="countdown">
+<div class="count-box"><span class="count-number" id="days">00</span><span class="count-label">يوم</span></div>
+<div class="count-box"><span class="count-number" id="hours">00</span><span class="count-label">ساعة</span></div>
+<div class="count-box"><span class="count-number" id="minutes">00</span><span class="count-label">دقيقة</span></div>
+<div class="count-box"><span class="count-number" id="seconds">00</span><span class="count-label">ثانية</span></div>
+</div>
+</div>
+</section>
+
+<section class="section welcome-section">
+<div class="glass">
+<div class="welcome-title">أهلاً وسهلاً بكم</div>
+<div class="divider"></div>
+<p class="welcome-text">حضوركم يكمّل فرحتنا، ووجودكم معنا يجعل هذا اليوم أجمل وأقرب إلى القلب.</p>
+<p class="welcome-text">بانتظاركم بكل الحب ❤️</p>
+<div class="closing-names">Ahlam & Akram</div>
+</div>
+</section>
+
+</div>
+</main>
+
+<audio id="weddingMusic" src="music.mp3" loop preload="auto"></audio>
+
+<script>
+const openingScreen=document.getElementById("openingScreen");
+const openInvitation=document.getElementById("openInvitation");
+const invitation=document.getElementById("invitation");
+const music=document.getElementById("weddingMusic");
+const musicButton=document.getElementById("musicButton");
+
+openInvitation.addEventListener("click",async()=>{
+  openingScreen.classList.add("hide");
+  invitation.classList.add("active");
+  musicButton.classList.add("show");
+  try{music.volume=.75;await music.play();musicButton.textContent="♫"}catch(e){console.log(e)}
+  window.scrollTo({top:0,behavior:"instant"});
+});
+
+musicButton.addEventListener("click",async()=>{
+  if(music.paused){try{await music.play();musicButton.textContent="♫"}catch(e){}}
+  else{music.pause();musicButton.textContent="♪"}
+});
+
+const weddingDate=new Date("2026-11-20T00:00:00").getTime();
+
+function updateCountdown(){
+  const distance=weddingDate-new Date().getTime();
+  if(distance<=0){
+    ["days","hours","minutes","seconds"].forEach(id=>document.getElementById(id).textContent="00");
+    return;
+  }
+  const days=Math.floor(distance/(1000*60*60*24));
+  const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+  const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+  const seconds=Math.floor((distance%(1000*60))/1000);
+  document.getElementById("days").textContent=String(days).padStart(2,"0");
+  document.getElementById("hours").textContent=String(hours).padStart(2,"0");
+  document.getElementById("minutes").textContent=String(minutes).padStart(2,"0");
+  document.getElementById("seconds").textContent=String(seconds).padStart(2,"0");
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+</script>
+</body>
+</html>
